@@ -4,8 +4,6 @@ apply plugin: 'signing'
 
 group = "com.rabidgremlin"
 archivesBaseName = "hello-world"
-version = "1.0.0"
-
 
 repositories {
     mavenCentral()
@@ -30,15 +28,10 @@ artifacts {
     archives javadocJar, sourcesJar
 }
 
+// only sign if we doing a release AND we are uploading
 def isReleaseVersion = !version.endsWith("SNAPSHOT")
-
-
-print ("isReleaseVersion:" + isReleaseVersion)
-
-
 signing {
-//required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
-    required { isReleaseVersion  }
+    required { isReleaseVersion && gradle.taskGraph.hasTask(uploadArchives) }
     sign configurations.archives
 }
 
