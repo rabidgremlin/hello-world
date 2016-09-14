@@ -4,15 +4,15 @@ apply plugin: 'signing'
 
 group = "com.rabidgremlin"
 archivesBaseName = "hello-world"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.0"
 
 
 repositories {
     mavenCentral()
 }
 
-dependencies {       
-    testCompile 'junit:junit:4.11'    
+dependencies {
+    testCompile 'junit:junit:4.11'
 }
 
 
@@ -30,7 +30,15 @@ artifacts {
     archives javadocJar, sourcesJar
 }
 
+def isReleaseVersion = !version.endsWith("SNAPSHOT")
+
+
+print ("isReleaseVersion:" + isReleaseVersion)
+
+
 signing {
+//required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+    required { isReleaseVersion  }
     sign configurations.archives
 }
 
@@ -49,7 +57,7 @@ uploadArchives {
 
       pom.project {
         name 'Hello World'
-        packaging 'jar'         
+        packaging 'jar'
         description 'A simple project to test Maven publication'
         url 'https://github.com/rabidgremlin/hello-world'
 
@@ -77,4 +85,3 @@ uploadArchives {
     }
   }
 }
-
