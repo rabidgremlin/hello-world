@@ -29,6 +29,7 @@ artifacts {
 }
 
 // only sign if we doing a release AND we are uploading
+// allows devs to gradle build or gradle install without PGP keys etc 
 def isReleaseVersion = !version.endsWith("SNAPSHOT")
 signing {
     required { isReleaseVersion && gradle.taskGraph.hasTask(uploadArchives) }
